@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+
+        <title>{{ page.title }}</title>
+
+        <link rel="stylesheet" href="/resources/main/stylesheets/main.css">
+
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div class="sticky-end">
+            <div class="sticky-end-body">
+
+                <div class="valign">
+                    <div class="valign-body">
+                        {% block header %}{% endblock %}
+
+                        {% block content %}
+                            No content defined.
+                        {% endblock %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="sticky-end-footer">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+    </body>
+
+    {% block foot %}{% endblock %}
+</html>
