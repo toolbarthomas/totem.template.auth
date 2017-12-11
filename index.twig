@@ -5,11 +5,11 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 
-        <title>{{ page.title }}</title>
+        <title>{{ template.title }}</title>
 
         <link rel="stylesheet" href="/resources/main/stylesheets/main.css">
 
-        {% block head %}{% endblock %}
+        {{ block('head') }}
     </head>
     <body>
         <div class="sticky-end">
@@ -17,20 +17,46 @@
 
                 <div class="valign">
                     <div class="valign-body">
-                        {% block header %}{% endblock %}
+                        {% if not template.logo.src is not empty %}
+                            <img class="logo"
+                                src="{{ template.logo.src }}"
+                                alt="{{ template.logo.title|default('') }}"
+                                width="{{ template.logo.width|default('auto') }}"
+                                height="{{ template.logo.height|default('auto') }}"
+                            />
+                        {% endif %}
 
-                        {% block content %}
-                            No content defined.
-                        {% endblock %}
+                        {% if template.title %}
+                            <h1 class="h4">{{ template.title }}</h1>
+                        {% endif %}
+
+                        {% if template.description %}
+                            <p class="lead">{{ template.description }}</p>
+                        {% endif %}
+
+                        {% set content = block('content')|default('No content defined') %}
+                        {% set footer = block('footer') %}
+
+                        {% embed 'totem_submodules::totem.module.panel/partials/panel.twig' with {
+                            panel_attributes: {
+                                class: 'panel--popup'
+                            }
+                        } %}
+
+                            {% block panel__main %}
+
+                                {{ content }}
+
+                            {% endblock %}
+
+                        {% endembed %}
+
+                        {{ footer is defined ? footer }}
+
                     </div>
                 </div>
-
-            </div>
-            <div class="sticky-end-footer">
-                {% block footer %}{% endblock %}
             </div>
         </div>
+        {% block foot %}{% endblock %}
     </body>
-
-    {% block foot %}{% endblock %}
 </html>
